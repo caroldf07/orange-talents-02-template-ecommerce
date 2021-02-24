@@ -12,21 +12,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
-//Carga de 4
+//Carga de 2
 @RestController
 @RequestMapping("/usuarios")
 public class UsuarioController {
 
     @PersistenceContext
     EntityManager em;
-
-    @Autowired
-    EmailUnicoValidator emailUnicoValidator;
-
-    @InitBinder
-    public void init(WebDataBinder binder){
-        binder.addValidators(emailUnicoValidator);
-    }
 
     @PostMapping
     @Transactional

@@ -13,6 +13,13 @@ public class EmailUnicoValidator implements Validator {
     @Autowired
     UsuarioRepository usuarioRepository;
 
+    /*
+    * Gerado para o teste de unidade
+    * */
+    public EmailUnicoValidator(UsuarioRepository usuarioRepository) {
+        this.usuarioRepository = usuarioRepository;
+    }
+
     @Override
     public boolean supports(Class<?> aClass) {
         return NovoUsuarioRequest.class.isAssignableFrom(aClass);
@@ -20,10 +27,15 @@ public class EmailUnicoValidator implements Validator {
 
     @Override
     public void validate(Object o, Errors errors) {
-        NovoUsuarioRequest novoUsuarioRequest= (NovoUsuarioRequest) o;
 
-        if(usuarioRepository.findByEmail(novoUsuarioRequest.getEmail()).isPresent()){
-            errors.rejectValue("email",null,"E-mail já cadastrado, tente outro");
+        if (errors.hasErrors()) {
+            return;
+        }
+
+        NovoUsuarioRequest novoUsuarioRequest = (NovoUsuarioRequest) o;
+
+        if (usuarioRepository.findByEmail(novoUsuarioRequest.getEmail()).isPresent()) {
+            errors.rejectValue("email", null, "E-mail já cadastrado, tente outro");
         }
 
     }

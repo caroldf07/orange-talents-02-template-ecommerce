@@ -1,6 +1,7 @@
 package br.com.orangetalents.mercadolivre.cadastranovousuario;
 
 import br.com.orangetalents.mercadolivre.cadastranovousuario.model.Usuario;
+import br.com.orangetalents.mercadolivre.compartilhado.validacao.UniqueValue;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
@@ -10,6 +11,7 @@ public class NovoUsuarioRequest {
 
     @NotBlank
     @Email
+    @UniqueValue(domainClass = Usuario.class,fieldName = "email")
     private String email;
 
     @NotBlank
