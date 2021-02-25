@@ -4,15 +4,18 @@ import br.com.orangetalents.mercadolivre.cadastranovousuario.model.Usuario;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
 
+@ExtendWith(MockitoExtension.class)
 class UniqueValueValidatorTest {
 
     @Mock
@@ -27,6 +30,8 @@ class UniqueValueValidatorTest {
     @Test
     @DisplayName("Deve retornar que já tem uma cadastrado")
     void isValid1() {
+
+        em.persist(usuario);
 
         String jpql = "SELECT 1 FROM Usuario WHERE email =:value";
 
@@ -44,6 +49,8 @@ class UniqueValueValidatorTest {
     @DisplayName("Deve retornar que não tem nenhum cadastrado")
     void isValid2() {
 
+        em.persist(usuario);
+
         String jpql = "SELECT 1 FROM Usuario WHERE email =:value";
 
         List<Usuario> list = new ArrayList<>();
@@ -59,6 +66,7 @@ class UniqueValueValidatorTest {
     @Test
     @DisplayName("Deve retornar que tem mais de um cadastrado")
     void isValid3() {
+        em.persist(usuario);
 
         String jpql = "SELECT 1 FROM Usuario WHERE email =:value";
 

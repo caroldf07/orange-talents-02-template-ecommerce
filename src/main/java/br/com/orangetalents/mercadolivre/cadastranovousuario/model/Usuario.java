@@ -15,10 +15,6 @@ import java.util.Objects;
 
 @Entity
 public class Usuario {
-
-
-    @PersistenceContext
-    EntityManager em;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,11 +40,6 @@ public class Usuario {
      * */
     @Deprecated
     public Usuario() {
-    }
-
-    @Autowired
-    public EntityManager getEm() {
-        return em;
     }
 
     @Override
@@ -77,16 +68,4 @@ public class Usuario {
         return instanteCriacao;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Usuario usuario = (Usuario) o;
-        return Objects.equals(id, usuario.id) && Objects.equals(email, usuario.email) && Objects.equals(senha, usuario.senha) && Objects.equals(instanteCriacao, usuario.instanteCriacao) && Objects.equals(em, usuario.em);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, email, senha, instanteCriacao, em);
-    }
 }

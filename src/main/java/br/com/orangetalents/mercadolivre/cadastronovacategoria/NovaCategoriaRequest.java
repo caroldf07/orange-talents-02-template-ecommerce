@@ -1,6 +1,7 @@
 package br.com.orangetalents.mercadolivre.cadastronovacategoria;
 
 import br.com.orangetalents.mercadolivre.cadastronovacategoria.model.Categoria;
+import br.com.orangetalents.mercadolivre.compartilhado.validacao.ExistById;
 import br.com.orangetalents.mercadolivre.compartilhado.validacao.UniqueValue;
 
 import javax.persistence.EntityManager;
@@ -14,6 +15,7 @@ public class NovaCategoriaRequest {
     private String nome;
 
     @Positive
+    @ExistById(domainClass = Categoria.class,fieldName = "id")
     private Long idCategoriaMae;
 
 
