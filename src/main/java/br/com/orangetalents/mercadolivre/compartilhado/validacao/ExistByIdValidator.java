@@ -27,7 +27,7 @@ public class ExistByIdValidator implements ConstraintValidator<ExistById, Object
         Query query = em.createQuery("SELECT 1 FROM " + klass.getName() + " WHERE " + fieldName + " =:value")
                 .setParameter("value", value);
 
-        Assertions.assertTrue((query.getResultList().size() <1) ,"Não existe o id indicado");
+        Assertions.assertTrue((query.getResultList().size() >= 1) ,"Não existe o id indicado");
 
         return !query.getResultList().isEmpty();
     }

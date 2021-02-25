@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
@@ -22,7 +21,7 @@ public class CategoriaController {
 
     @PostMapping
     @Transactional
-    public String criar(@RequestBody @Valid NovaCategoriaRequest novaCategoriaRequest){
+    public String criar(@RequestBody @Valid NovaCategoriaRequest novaCategoriaRequest) {
         Categoria categoria = novaCategoriaRequest.toModel(em);
         em.persist(categoria);
         return categoria.toString();

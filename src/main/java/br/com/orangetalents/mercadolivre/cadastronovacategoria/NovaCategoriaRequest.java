@@ -3,6 +3,7 @@ package br.com.orangetalents.mercadolivre.cadastronovacategoria;
 import br.com.orangetalents.mercadolivre.cadastronovacategoria.model.Categoria;
 import br.com.orangetalents.mercadolivre.compartilhado.validacao.ExistById;
 import br.com.orangetalents.mercadolivre.compartilhado.validacao.UniqueValue;
+import org.junit.jupiter.api.Assertions;
 
 import javax.persistence.EntityManager;
 import javax.validation.constraints.NotBlank;
@@ -15,17 +16,9 @@ public class NovaCategoriaRequest {
     private String nome;
 
     @Positive
-    @ExistById(domainClass = Categoria.class,fieldName = "id")
+    @ExistById(domainClass = Categoria.class, fieldName = "id")
     private Long idCategoriaMae;
 
-
-
-    /*
-    * Gerado para teste do toModel()
-    * */
-    public Long getIdCategoriaMae() {
-        return idCategoriaMae;
-    }
 
     public NovaCategoriaRequest(@NotBlank String nome) {
         this.nome = nome;
@@ -36,6 +29,13 @@ public class NovaCategoriaRequest {
      * */
     @Deprecated
     public NovaCategoriaRequest() {
+    }
+
+    /*
+     * Gerado para teste do toModel()
+     * */
+    public Long getIdCategoriaMae() {
+        return idCategoriaMae;
     }
 
     public void setIdCategoriaMae(Long idCategoriaMae) {
@@ -61,6 +61,7 @@ public class NovaCategoriaRequest {
         if (this.idCategoriaMae != null) {
             categoriaMae = em.find(Categoria.class, idCategoriaMae);
             categoria.setNomeCategoriaMae(categoriaMae);
+            Assertions.assertNotNull(idCategoriaMae, "O id categoria mãe está nulo");
         }
 
         return categoria;
