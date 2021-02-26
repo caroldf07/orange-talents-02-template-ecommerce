@@ -1,5 +1,7 @@
 package br.com.orangetalents.mercadolivre.cadastronovacategoria.model;
 
+import br.com.orangetalents.mercadolivre.cadastronovacategoria.view.NovaCategoriaResponse;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
@@ -22,17 +24,10 @@ public class Categoria {
     }
 
     /*
-    * Criado para o jackson
-    * */
+     * Criado para o jackson
+     * */
     @Deprecated
     public Categoria() {
-    }
-
-    /*
-     * Caso a categoria tenha uma mãe, setaremos pelo Id e retorna o nome da mãe
-     * */
-    public void setNomeCategoriaMae(Categoria nomeCategoriaMae) {
-        this.nomeCategoriaMae = nomeCategoriaMae;
     }
 
     public String getNome() {
@@ -47,6 +42,13 @@ public class Categoria {
         return nomeCategoriaMae;
     }
 
+    /*
+     * Caso a categoria tenha uma mãe, setaremos pelo Id e retorna o nome da mãe
+     * */
+    public void setNomeCategoriaMae(Categoria nomeCategoriaMae) {
+        this.nomeCategoriaMae = nomeCategoriaMae;
+    }
+
     @Override
     public String toString() {
         return "Categoria{" +
@@ -55,4 +57,12 @@ public class Categoria {
                 ", nomeCategoriaMae='" + nomeCategoriaMae + '\'' +
                 '}';
     }
+
+    /*
+     * Retorno para o usuário após a criação de uma nova categoria
+     * */
+    public NovaCategoriaResponse fromModelToResponse() {
+        return new NovaCategoriaResponse(this.nome, this.nomeCategoriaMae);
+    }
+
 }

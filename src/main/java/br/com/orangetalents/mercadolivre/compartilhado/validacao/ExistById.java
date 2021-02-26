@@ -19,4 +19,5 @@ public @interface ExistById {
     String fieldName();
 
     Class<?> domainClass();
+
 }

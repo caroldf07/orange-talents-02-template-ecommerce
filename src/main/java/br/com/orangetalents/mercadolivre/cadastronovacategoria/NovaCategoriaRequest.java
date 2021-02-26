@@ -61,6 +61,7 @@ public class NovaCategoriaRequest {
         if (this.idCategoriaMae != null) {
             categoriaMae = em.find(Categoria.class, idCategoriaMae);
             categoria.setNomeCategoriaMae(categoriaMae);
+
             Assertions.assertNotNull(idCategoriaMae, "O id categoria mãe está nulo");
         }
 
