@@ -2,7 +2,6 @@ package br.com.orangetalents.mercadolivre.compartilhado.seguranca;
 
 import br.com.orangetalents.mercadolivre.cadastranovousuario.model.Usuario;
 import br.com.orangetalents.mercadolivre.cadastranovousuario.repository.UsuarioRepository;
-import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,7 +1,5 @@
 package br.com.orangetalents.mercadolivre.compartilhado.validacao;
 
-import org.junit.jupiter.api.Assertions;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -27,8 +25,8 @@ public class ExistByIdValidator implements ConstraintValidator<ExistById, Object
         Query query = em.createQuery("SELECT 1 FROM " + klass.getName() + " WHERE " + fieldName + " =:value")
                 .setParameter("value", value);
 
-        Assertions.assertTrue((query.getResultList().size() >= 1) ,"Não existe o id indicado");
 
         return !query.getResultList().isEmpty();
+
     }
 }

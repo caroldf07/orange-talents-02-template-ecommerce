@@ -37,9 +37,9 @@ public class Usuario implements UserDetails {
     }
 
     /*
-     * Construtor vazio criado por causa do jackson
+     * Construtor vazio criado por causa do jackson e não tem o deprecated por conta do UsuarioLogado para fins de
+     * capturar as informações do usuário durante a sessão
      * */
-    @Deprecated
     public Usuario() {
     }
 
@@ -103,5 +103,6 @@ public class Usuario implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 
 }

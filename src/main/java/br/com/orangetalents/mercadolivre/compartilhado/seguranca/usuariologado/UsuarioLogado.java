@@ -10,7 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 
-public class UsuarioLogado implements UserDetails {
+public class UsuarioLogado extends Usuario {
 
     private User springUserDetails;
 
@@ -21,38 +21,7 @@ public class UsuarioLogado implements UserDetails {
         springUserDetails = new User(usuario.getEmail(), usuario.getSenha(), List.of());
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
+    public Usuario get() {
+        return usuario;
     }
 }

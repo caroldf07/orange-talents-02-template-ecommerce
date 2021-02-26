@@ -1,14 +1,20 @@
 package br.com.orangetalents.mercadolivre.cadastronovoproduto.model;
 
+import br.com.orangetalents.mercadolivre.cadastranovousuario.model.Usuario;
 import br.com.orangetalents.mercadolivre.cadastronovacategoria.model.Categoria;
-import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.model.Caracteristica;
+import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.NovaCaracteristicaRequest;
+import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.model.CaracteristicaProduto;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class Produto {
@@ -29,9 +35,9 @@ public class Produto {
     @NotNull
     private Integer quantidade;
 
-    @OneToMany(mappedBy = "produto")
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.PERSIST)
     @Size(min = 3)
-    private List<Caracteristica> características;
+    private Set<CaracteristicaProduto> caracteristicas = new HashSet<>();
 
     @NotBlank
     @Column(length = 1000)
@@ -39,35 +45,42 @@ public class Produto {
 
     @NotNull
     @ManyToOne
+    @Valid
     private Categoria categoria;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate instante = LocalDate.now();
 
+    @NotNull
+    @Valid
+    @ManyToOne
+    private Usuario responsavel;
+
     public Produto(@NotBlank String nome,
                    @NotNull @Digits(integer = 6, fraction = 2) @DecimalMin("0.01") BigDecimal preco,
                    @PositiveOrZero @NotNull Integer quantidade,
-                   @Size(min = 3) List<Caracteristica> características,
-                   @NotBlank String descricao, @NotNull Categoria categoria) {
+                   @Size(min = 3) Collection<NovaCaracteristicaRequest> caracteristicas,
+                   @NotBlank String descricao, @NotNull Categoria categoria, @NotNull @Valid Usuario responsavel) {
         this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;
-        this.características = características;
+        this.caracteristicas.addAll(caracteristicas.stream().map(caracteristica -> caracteristica.toModel(this)).collect(Collectors.toSet()));
         this.descricao = descricao;
         this.categoria = categoria;
+        this.responsavel = responsavel;
     }
 
     @Override
     public String toString() {
         return "Produto{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
+                "nome='" + nome + '\'' +
                 ", preco=" + preco +
                 ", quantidade=" + quantidade +
-                ", características=" + características +
+                ", características=" + caracteristicas +
                 ", descricao='" + descricao + '\'' +
-                    categoria +
+                ", categoria=" + categoria +
                 ", instante=" + instante +
+                ", responsavel=" + responsavel +
                 '}';
     }
 }

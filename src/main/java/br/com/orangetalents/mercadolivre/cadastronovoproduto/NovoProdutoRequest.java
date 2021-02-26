@@ -1,16 +1,20 @@
 package br.com.orangetalents.mercadolivre.cadastronovoproduto;
 
+import br.com.orangetalents.mercadolivre.cadastranovousuario.model.Usuario;
 import br.com.orangetalents.mercadolivre.cadastronovacategoria.model.Categoria;
-import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.model.Caracteristica;
+import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.NovaCaracteristicaRequest;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.model.Produto;
 import br.com.orangetalents.mercadolivre.compartilhado.validacao.ExistById;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.EntityManager;
+import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class NovoProdutoRequest {
 
@@ -28,23 +32,25 @@ public class NovoProdutoRequest {
 
     @Size(min = 3)
     @NotNull
-    private List<Long> idCaracteristicas;
+    private List<@Valid NovaCaracteristicaRequest> caracteristicas = new ArrayList<>();
 
     @NotBlank
     @Length(max = 1000)
     private String descricao;
 
     @NotNull
+    @ExistById(domainClass = Categoria.class, fieldName = "id")
     private Long idCategoria;
 
-    public NovoProdutoRequest(@NotBlank String nome, @Positive @NotNull BigDecimal preco,
-                              @Positive @NotNull Integer quantidade, @Size(min = 3)
-                              @NotNull List<Long> idCaracteristicas, @NotBlank @Size(max = 1000) String descricao,
-                              @NotNull Long idCategoria) {
+    public NovoProdutoRequest(@NotBlank String nome,
+                              @NotNull @Digits(integer = 6, fraction = 2) @Positive BigDecimal preco,
+                              @PositiveOrZero @NotNull Integer quantidade, @Size(min = 3)
+                              @NotNull List<@Valid NovaCaracteristicaRequest> caracteristicas,
+                              @NotBlank @Length(max = 1000) String descricao, @NotNull Long idCategoria) {
         this.nome = nome;
         this.preco = preco;
         this.quantidade = quantidade;
-        this.idCaracteristicas = idCaracteristicas;
+        this.caracteristicas.addAll(caracteristicas);
         this.descricao = descricao;
         this.idCategoria = idCategoria;
     }
@@ -62,7 +68,7 @@ public class NovoProdutoRequest {
                 "nome='" + nome + '\'' +
                 ", preco=" + preco +
                 ", quantidade=" + quantidade +
-                ", idCaracteristicas=" + idCaracteristicas +
+                ", caracteristicas=" + caracteristicas +
                 ", descricao='" + descricao + '\'' +
                 ", idCategoria=" + idCategoria +
                 '}';
@@ -80,10 +86,6 @@ public class NovoProdutoRequest {
         return quantidade;
     }
 
-    public List<Long> getIdCaracteristicas() {
-        return idCaracteristicas;
-    }
-
     public String getDescricao() {
         return descricao;
     }
@@ -92,23 +94,36 @@ public class NovoProdutoRequest {
         return idCategoria;
     }
 
-    public Produto toModel(EntityManager em) {
+    public List<NovaCaracteristicaRequest> getCaracteristicas() {
+        return caracteristicas;
+    }
+
+    /*
+     * Verifica se a característica do Produto já não foi passada,
+     * mas não verifica se ela já consta no banco para aquele produto
+     * */
+    public Set<String> temCaracteristicasIguais() {
+        HashSet<String> nomes = new HashSet<>();
+        HashSet<String> resultados = new HashSet<>();
+
+        for (NovaCaracteristicaRequest novaCaracteristicaRequest :
+                caracteristicas) {
+            if (!nomes.add(novaCaracteristicaRequest.getNome())) {
+                resultados.add(nome);
+            }
+        }
+
+        return resultados;
+    }
+
+    public Produto toModel(EntityManager em, Usuario responsavel) {
         Categoria categoria = em.find(Categoria.class, idCategoria);
-
-        List<Caracteristica> caracteristicas = new ArrayList<>();
-
-        idCaracteristicas.forEach(caracteristica -> {
-            Caracteristica caracConvertida = em.find(Caracteristica.class, caracteristica);
-
-            caracteristicas.add(caracConvertida);
-
-        });
 
         return new Produto(this.nome,
                 this.preco,
                 this.quantidade,
-                caracteristicas,
+                this.caracteristicas,
                 this.descricao,
-                categoria);
+                categoria, responsavel);
     }
 }
