@@ -35,15 +35,15 @@ public class AutenticacaoViaTokenFilter extends OncePerRequestFilter {
         Optional<String> token = Optional.ofNullable(recuperarToken(httpServletRequest));
         if (token.isPresent() && tokenService.isTokenValido(token.get())) {
             Long idUsuario = tokenService.getIdUsuario(token);
-            Optional<Usuario> usuario = usuarioRepository.findById(idUsuario);
+            Usuario usuario = usuarioRepository.findById(idUsuario).get();
             Assertions.assertNotNull(idUsuario, "O id do usuário veio nulo");
 
-            if (usuario.isPresent()) {
+            if (usuario != null) {
                 UsernamePasswordAuthenticationToken autenticacao = new UsernamePasswordAuthenticationToken(usuario,
-                        null, usuario.get().getAuthorities());
+                        null, usuario.getAuthorities());
 
                 SecurityContextHolder.getContext().setAuthentication(autenticacao);
-                Assertions.assertTrue(usuario.isPresent(), "Usuário não existe");
+                Assertions.assertNotNull(usuario, "Usuário não existe");
             }
             Assertions.assertTrue(token.isPresent(), "O token veio vazio");
             Assertions.assertTrue(tokenService.isTokenValido(token.get()), "O token veio inválido");

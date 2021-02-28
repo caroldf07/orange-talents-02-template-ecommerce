@@ -5,6 +5,7 @@ import br.com.orangetalents.mercadolivre.cadastronovacategoria.model.Categoria;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.NovaCaracteristicaRequest;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.model.Produto;
 import br.com.orangetalents.mercadolivre.compartilhado.validacao.ExistById;
+import br.com.orangetalents.mercadolivre.compartilhado.validacao.UniqueValue;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.EntityManager;
@@ -19,6 +20,7 @@ import java.util.Set;
 public class NovoProdutoRequest {
 
     @NotBlank
+    @UniqueValue(domainClass = Produto.class, fieldName = "nome")
     private String nome;
 
     @NotNull

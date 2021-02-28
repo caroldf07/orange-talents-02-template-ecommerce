@@ -1,18 +1,22 @@
 package br.com.orangetalents.mercadolivre.cadastranovousuario.model;
 
 import br.com.orangetalents.mercadolivre.cadastranovousuario.validacao.FormatoDataCriacao;
+import br.com.orangetalents.mercadolivre.cadastronovoproduto.model.Produto;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 
 @Entity
 public class Usuario implements UserDetails {
@@ -30,6 +34,10 @@ public class Usuario implements UserDetails {
     @FormatoDataCriacao //formata a data que vem tanto por JSON como por form
     @PastOrPresent
     private LocalDateTime instanteCriacao = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "responsavel", orphanRemoval = true)
+    @Valid
+    private List<Produto> produtos;
 
     public Usuario(@NotBlank @Email String email, @NotBlank @Length(min = 6) String senha) {
         this.email = email;
@@ -71,17 +79,17 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return Collections.emptyList();
     }
 
     @Override
     public String getPassword() {
-        return this.senha;
+        return senha;
     }
 
     @Override
     public String getUsername() {
-        return this.email;
+        return email;
     }
 
     @Override
