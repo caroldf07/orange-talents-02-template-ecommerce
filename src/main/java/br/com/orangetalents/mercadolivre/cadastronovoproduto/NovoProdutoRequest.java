@@ -7,6 +7,7 @@ import br.com.orangetalents.mercadolivre.cadastronovoproduto.model.Produto;
 import br.com.orangetalents.mercadolivre.compartilhado.validacao.ExistById;
 import br.com.orangetalents.mercadolivre.compartilhado.validacao.UniqueValue;
 import org.hibernate.validator.constraints.Length;
+import org.junit.jupiter.api.Assertions;
 
 import javax.persistence.EntityManager;
 import javax.validation.Valid;
@@ -32,9 +33,8 @@ public class NovoProdutoRequest {
     @NotNull
     private Integer quantidade;
 
-    @Size(min = 3)
-    @NotNull
-    private List<@Valid NovaCaracteristicaRequest> caracteristicas = new ArrayList<>();
+    @Valid
+    private @Size(min = 3) List<NovaCaracteristicaRequest> caracteristicas = new ArrayList<>();
 
     @NotBlank
     @Length(max = 1000)
@@ -55,6 +55,9 @@ public class NovoProdutoRequest {
         this.caracteristicas.addAll(caracteristicas);
         this.descricao = descricao;
         this.idCategoria = idCategoria;
+
+        Assertions.assertTrue(this.caracteristicas.size() >= 3, "Foram recebidas menos de 3 características");
+
     }
 
     /*
@@ -118,7 +121,7 @@ public class NovoProdutoRequest {
         return resultados;
     }
 
-    public Produto toModel(EntityManager em, Usuario responsavel) {
+    public Produto toModel(EntityManager em, @Valid Usuario responsavel) {
         Categoria categoria = em.find(Categoria.class, idCategoria);
 
         return new Produto(this.nome,
