@@ -49,4 +49,10 @@ public class NovaCaracteristicaRequest {
         return new Caracteristica(this.nome, this.descricao);
     }
 
+    /*
+    * Criado somente por conta do Jackson
+    * */
+    @Deprecated
+    public NovaCaracteristicaRequest() {
+    }
 }

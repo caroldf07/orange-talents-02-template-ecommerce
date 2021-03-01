@@ -28,6 +28,13 @@ public class Caracteristica {
         this.descricao = descricao;
     }
 
+    /*
+     * Criado apenas por conta do jackson
+     */
+    @Deprecated
+    public Caracteristica() {
+    }
+
     public Long getId() {
         return id;
     }
@@ -49,7 +56,6 @@ public class Caracteristica {
                 '}';
     }
 
-
     /*
      * Retorno para o usuário após a criação de uma nova característica
      * */
@@ -59,11 +65,5 @@ public class Caracteristica {
 
     public Produto getProduto() {
         return produto;
-    }
-
-    /*
-     * Criado apenas por conta do jackson
-     */
-    public Caracteristica() {
     }
 }

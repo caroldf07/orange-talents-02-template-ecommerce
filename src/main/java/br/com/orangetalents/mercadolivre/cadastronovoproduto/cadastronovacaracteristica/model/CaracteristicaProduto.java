@@ -15,6 +15,7 @@ public class CaracteristicaProduto {
     private Long id;
 
     @NotBlank
+    @Column(unique = true)
     private String nome;
 
     @NotBlank
@@ -29,5 +30,12 @@ public class CaracteristicaProduto {
         this.nome = nome;
         this.descricao = descricao;
         this.produto = produto;
+    }
+
+    /*
+     * Gerado apenas por conta do Jackson
+     * */
+    @Deprecated
+    public CaracteristicaProduto() {
     }
 }

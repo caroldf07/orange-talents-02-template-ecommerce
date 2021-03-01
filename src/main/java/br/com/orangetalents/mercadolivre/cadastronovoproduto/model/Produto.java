@@ -4,6 +4,7 @@ import br.com.orangetalents.mercadolivre.cadastranovousuario.model.Usuario;
 import br.com.orangetalents.mercadolivre.cadastronovacategoria.model.Categoria;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.NovaCaracteristicaRequest;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.model.CaracteristicaProduto;
+import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovaimagem.ImagemProduto;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.Assert;
 
@@ -57,6 +58,10 @@ public class Produto {
     @ManyToOne
     private Usuario responsavel;
 
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+    // A imagem só é persistida quando o produto é atualizado
+    private Set<ImagemProduto> imagens = new HashSet<>();
+
     public Produto(@NotBlank String nome,
                    @NotNull @Digits(integer = 6, fraction = 2) @DecimalMin("0.01") BigDecimal preco,
                    @PositiveOrZero @NotNull Integer quantidade,
@@ -74,17 +79,25 @@ public class Produto {
                 "Todo produto precisa ter no mínimo 3 ou mais características");
     }
 
+    /*
+     * Criado apenas por conta do Jackson
+     * */
+    @Deprecated
+    public Produto() {
+    }
+
     @Override
     public String toString() {
         return "Produto{" +
                 "nome='" + nome + '\'' +
                 ", preco=" + preco +
                 ", quantidade=" + quantidade +
-                ", características=" + caracteristicas +
+                ", caracteristicas=" + caracteristicas +
                 ", descricao='" + descricao + '\'' +
                 ", categoria=" + categoria +
                 ", instante=" + instante +
                 ", responsavel=" + responsavel +
+                ", imagens=" + imagens +
                 '}';
     }
 
@@ -99,5 +112,20 @@ public class Produto {
     @Override
     public int hashCode() {
         return Objects.hash(nome);
+    }
+
+    public void associaImagem(Set<String> links) {
+
+        /*
+         * Passo por toda a lista de links (que já foram transformados pelo uploaderFake,
+         * Pelo controller, já sei que é o produto para o qual vou vincular a imagem,
+         * então, pelo map, instancio a imagem no produto e vou enchendo a listagem de imagens com as URL de cada uma
+         * das imagens.
+         * */
+        Set<ImagemProduto> imagem = links.stream().
+                map(link -> new ImagemProduto(this, link)).
+                collect(Collectors.toSet());
+
+        this.imagens.addAll(imagem);
     }
 }

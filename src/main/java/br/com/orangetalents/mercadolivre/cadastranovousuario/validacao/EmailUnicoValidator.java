@@ -14,8 +14,8 @@ public class EmailUnicoValidator implements Validator {
     UsuarioRepository usuarioRepository;
 
     /*
-    * Gerado para o teste de unidade
-    * */
+     * Gerado para o teste de unidade
+     * */
     public EmailUnicoValidator(UsuarioRepository usuarioRepository) {
         this.usuarioRepository = usuarioRepository;
     }

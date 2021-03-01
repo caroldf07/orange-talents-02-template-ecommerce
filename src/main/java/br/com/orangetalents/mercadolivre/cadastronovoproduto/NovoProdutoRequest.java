@@ -34,6 +34,7 @@ public class NovoProdutoRequest {
     private Integer quantidade;
 
     @Valid
+    @NotNull
     private @Size(min = 3) List<NovaCaracteristicaRequest> caracteristicas = new ArrayList<>();
 
     @NotBlank

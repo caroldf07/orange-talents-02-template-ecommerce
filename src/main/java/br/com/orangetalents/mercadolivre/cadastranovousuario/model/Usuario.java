@@ -35,7 +35,7 @@ public class Usuario implements UserDetails {
     @PastOrPresent
     private LocalDateTime instanteCriacao = LocalDateTime.now();
 
-    @OneToMany(mappedBy = "responsavel", orphanRemoval = true)
+    @OneToMany(mappedBy = "responsavel", orphanRemoval = true) //Se usuário for deletado, os produtos dele também serão
     @Valid
     private List<Produto> produtos;
 
@@ -54,9 +54,7 @@ public class Usuario implements UserDetails {
     @Override
     public String toString() {
         return "Usuario{" +
-                "id=" + id +
                 ", email='" + email + '\'' +
-                ", senha='" + senha + '\'' +
                 ", instanteCriacao=" + instanteCriacao +
                 '}';
     }

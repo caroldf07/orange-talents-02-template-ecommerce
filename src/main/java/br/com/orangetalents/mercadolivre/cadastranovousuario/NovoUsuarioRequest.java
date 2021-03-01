@@ -11,7 +11,7 @@ public class NovoUsuarioRequest {
 
     @NotBlank
     @Email
-    @UniqueValue(domainClass = Usuario.class,fieldName = "email")
+    @UniqueValue(domainClass = Usuario.class, fieldName = "email")
     private String email;
 
     @NotBlank
