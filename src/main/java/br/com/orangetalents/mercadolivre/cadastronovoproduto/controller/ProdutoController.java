@@ -6,6 +6,7 @@ import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovaimagem.
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovaimagem.UploaderFake;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.model.Produto;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.validacao.CaracteristicaComNomeIgualValidator;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +19,7 @@ import javax.validation.Valid;
 import java.util.Set;
 
 
-//Carga de 5
+//Carga de 6
 @RestController
 @RequestMapping("/produtos")
 public class ProdutoController {
@@ -47,6 +48,15 @@ public class ProdutoController {
     @Transactional
     public ResponseEntity<String> adicionarImagem(@PathVariable("id") Long id, @Valid NovaImagemRequest novaImagemRequest, @AuthenticationPrincipal Usuario usuarioLogado) {
 
+        Produto produto = em.find(Produto.class, id);
+        Usuario responsavel = em.find(Usuario.class, usuarioLogado.getId());
+
+        /*
+         * Se o usuário logado não for o responsável pelo produto, retornar 403
+         * */
+        if (!produto.getResponsavel().equals(responsavel)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         /*
          * Armazenando as imagens
          * */
@@ -55,9 +65,7 @@ public class ProdutoController {
         /*
          * Busco o produto selecionado e faço o vínculo da imagem recebida com o produto
          * */
-        Produto produto = em.find(Produto.class, id);
         produto.associaImagem(links);
-
 
         /*
          * Faço a persistência do produto atulizado já com as imagens

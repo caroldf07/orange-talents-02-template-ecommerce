@@ -2,9 +2,11 @@ package br.com.orangetalents.mercadolivre.cadastronovoproduto.model;
 
 import br.com.orangetalents.mercadolivre.cadastranovousuario.model.Usuario;
 import br.com.orangetalents.mercadolivre.cadastronovacategoria.model.Categoria;
+import br.com.orangetalents.mercadolivre.cadastronovaopiniao.NovaOpiniaoRequest;
+import br.com.orangetalents.mercadolivre.cadastronovaopiniao.model.Opiniao;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.NovaCaracteristicaRequest;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.model.CaracteristicaProduto;
-import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovaimagem.ImagemProduto;
+import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovaimagem.model.ImagemProduto;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.Assert;
 
@@ -13,10 +15,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -62,6 +61,9 @@ public class Produto {
     // A imagem só é persistida quando o produto é atualizado
     private Set<ImagemProduto> imagens = new HashSet<>();
 
+    @OneToMany(mappedBy = "produto", cascade = CascadeType.MERGE)
+    private List<Opiniao> opinioes = new ArrayList<>();
+
     public Produto(@NotBlank String nome,
                    @NotNull @Digits(integer = 6, fraction = 2) @DecimalMin("0.01") BigDecimal preco,
                    @PositiveOrZero @NotNull Integer quantidade,
@@ -79,6 +81,14 @@ public class Produto {
                 "Todo produto precisa ter no mínimo 3 ou mais características");
     }
 
+    public Usuario getResponsavel() {
+        return responsavel;
+    }
+
+    public void setResponsavel(Usuario responsavel) {
+        this.responsavel = responsavel;
+    }
+
     /*
      * Criado apenas por conta do Jackson
      * */
@@ -89,7 +99,8 @@ public class Produto {
     @Override
     public String toString() {
         return "Produto{" +
-                "nome='" + nome + '\'' +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
                 ", preco=" + preco +
                 ", quantidade=" + quantidade +
                 ", caracteristicas=" + caracteristicas +
@@ -98,6 +109,7 @@ public class Produto {
                 ", instante=" + instante +
                 ", responsavel=" + responsavel +
                 ", imagens=" + imagens +
+                ", opinioes=" + opinioes +
                 '}';
     }
 
@@ -127,5 +139,10 @@ public class Produto {
                 collect(Collectors.toSet());
 
         this.imagens.addAll(imagem);
+    }
+
+
+    public void adicionaOpiniao(Opiniao opiniao) {
+        this.opinioes.add(opiniao);
     }
 }

@@ -28,6 +28,9 @@ class UniqueValueValidatorTest {
     @DisplayName("Deve retornar que já tem uma cadastrado")
     void isValid1() {
 
+        /*
+        * Persisto o usuário mockado no banco
+        * */
         em.persist(usuario);
 
         String jpql = "SELECT 1 FROM Usuario WHERE email =:value";
