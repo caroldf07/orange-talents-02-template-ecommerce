@@ -5,6 +5,7 @@ import br.com.orangetalents.mercadolivre.cadastronovaopiniao.model.Opiniao;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.model.Produto;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -39,8 +40,8 @@ public class NovaOpiniaoRequest {
     public NovaOpiniaoRequest() {
     }
 
-    public Opiniao toModel() {
-        return new Opiniao(this.nota, this.titulo, this.descricao);
+    public Opiniao toModel(@NotNull @Valid Produto produto, @NotNull @Valid Usuario usuarioLogado) {
+        return new Opiniao(this.nota, this.titulo, this.descricao, usuarioLogado, produto);
     }
 
     public Integer getNota() {

@@ -40,11 +40,14 @@ public class Opiniao {
     @ManyToOne
     private Produto produto;
 
-    public Opiniao(@Min(value = 1) @Max(value = 5) Integer nota,
-                   @NotBlank String titulo, @NotBlank @Length(max = 500) String descricao) {
+    public Opiniao(@Min(value = 1) @Max(value = 5) @NotNull Integer nota,
+                   @NotBlank String titulo, @NotBlank @Length(max = 500) String descricao,
+                   @NotNull @Valid Usuario usuario, @NotNull @Valid Produto produto) {
         this.nota = nota;
         this.titulo = titulo;
         this.descricao = descricao;
+        this.usuario = usuario;
+        this.produto = produto;
     }
 
     /*
@@ -68,6 +71,8 @@ public class Opiniao {
                 "nota=" + nota +
                 ", titulo='" + titulo + '\'' +
                 ", descricao='" + descricao + '\'' +
+                ", usuario=" + usuario +
+                ", produto=" + produto +
                 '}';
     }
 }

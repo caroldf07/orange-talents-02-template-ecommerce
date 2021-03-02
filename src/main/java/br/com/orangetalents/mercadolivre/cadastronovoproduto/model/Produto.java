@@ -2,7 +2,6 @@ package br.com.orangetalents.mercadolivre.cadastronovoproduto.model;
 
 import br.com.orangetalents.mercadolivre.cadastranovousuario.model.Usuario;
 import br.com.orangetalents.mercadolivre.cadastronovacategoria.model.Categoria;
-import br.com.orangetalents.mercadolivre.cadastronovaopiniao.NovaOpiniaoRequest;
 import br.com.orangetalents.mercadolivre.cadastronovaopiniao.model.Opiniao;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.NovaCaracteristicaRequest;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.model.CaracteristicaProduto;
@@ -81,6 +80,13 @@ public class Produto {
                 "Todo produto precisa ter no mínimo 3 ou mais características");
     }
 
+    /*
+     * Criado apenas por conta do Jackson
+     * */
+    @Deprecated
+    public Produto() {
+    }
+
     public Usuario getResponsavel() {
         return responsavel;
     }
@@ -89,18 +95,10 @@ public class Produto {
         this.responsavel = responsavel;
     }
 
-    /*
-     * Criado apenas por conta do Jackson
-     * */
-    @Deprecated
-    public Produto() {
-    }
-
     @Override
     public String toString() {
         return "Produto{" +
-                "id=" + id +
-                ", nome='" + nome + '\'' +
+                "nome='" + nome + '\'' +
                 ", preco=" + preco +
                 ", quantidade=" + quantidade +
                 ", caracteristicas=" + caracteristicas +
@@ -109,7 +107,6 @@ public class Produto {
                 ", instante=" + instante +
                 ", responsavel=" + responsavel +
                 ", imagens=" + imagens +
-                ", opinioes=" + opinioes +
                 '}';
     }
 

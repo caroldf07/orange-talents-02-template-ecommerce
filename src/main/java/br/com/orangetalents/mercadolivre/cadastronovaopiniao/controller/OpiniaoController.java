@@ -26,15 +26,10 @@ public class OpiniaoController {
         Produto produto = em.find(Produto.class, id);
         Usuario usuarioLogado = em.find(Usuario.class, usuarioAutenticado.getId());
 
-        Opiniao opiniao = novaOpiniaoRequest.toModel();
-        opiniao.setProduto(produto);
-        opiniao.setUsuario(usuarioLogado);
+        Opiniao opiniao = novaOpiniaoRequest.toModel(produto, usuarioLogado);
         em.persist(opiniao);
 
-        produto.adicionaOpiniao(opiniao);
-        em.merge(produto);
-
-        return ResponseEntity.ok(produto.toString());
+        return ResponseEntity.ok(opiniao.toString());
 
     }
 }
