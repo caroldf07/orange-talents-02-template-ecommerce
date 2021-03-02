@@ -13,6 +13,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.validation.Valid;
 
+
+//Carga de 4
 @RestController
 @RequestMapping("/produtos")
 public class OpiniaoController {

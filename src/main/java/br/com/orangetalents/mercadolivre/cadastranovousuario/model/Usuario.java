@@ -2,6 +2,7 @@ package br.com.orangetalents.mercadolivre.cadastranovousuario.model;
 
 import br.com.orangetalents.mercadolivre.cadastranovousuario.validacao.FormatoDataCriacao;
 import br.com.orangetalents.mercadolivre.cadastronovaopiniao.model.Opiniao;
+import br.com.orangetalents.mercadolivre.cadastronovapergunta.model.Pergunta;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.model.Produto;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
@@ -43,6 +44,10 @@ public class Usuario implements UserDetails {
     @OneToMany(mappedBy = "usuario", orphanRemoval = false) //Se usuário for deletado, as opiniões dele permanecem
     @Valid
     private List<Opiniao> opinioes;
+
+    @OneToMany(mappedBy = "pessoaInteressada", orphanRemoval = false)
+    @Valid
+    private List<Pergunta> perguntas;
 
     public Usuario(@NotBlank @Email String email, @NotBlank @Length(min = 6) String senha) {
         this.email = email;
