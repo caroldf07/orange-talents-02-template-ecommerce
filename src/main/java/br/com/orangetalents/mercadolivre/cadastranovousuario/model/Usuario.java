@@ -35,7 +35,7 @@ public class Usuario implements UserDetails {
     @NotNull
     @FormatoDataCriacao //formata a data que vem tanto por JSON como por form
     @PastOrPresent
-    private LocalDateTime instanteCriacao = LocalDateTime.now();
+    private LocalDateTime instanteCriacao;
 
     @OneToMany(mappedBy = "responsavel", orphanRemoval = true) //Se usuário for deletado, os produtos dele também serão
     @Valid
@@ -52,6 +52,7 @@ public class Usuario implements UserDetails {
     public Usuario(@NotBlank @Email String email, @NotBlank @Length(min = 6) String senha) {
         this.email = email;
         this.senha = new BCryptPasswordEncoder().encode(senha);
+        this.instanteCriacao = LocalDateTime.now();
     }
 
     /*

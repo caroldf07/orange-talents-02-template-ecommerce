@@ -6,6 +6,7 @@ import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovaimagem.
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovaimagem.UploaderFake;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.model.Produto;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.validacao.CaracteristicaComNomeIgualValidator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -25,9 +26,10 @@ import java.util.Set;
 public class ProdutoController {
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
-    UploaderFake uploaderFake;
+    @Autowired
+    private UploaderFake uploaderFake;
 
     @InitBinder(value = "NovoProdutoRequest")
     public void init(WebDataBinder binder) {

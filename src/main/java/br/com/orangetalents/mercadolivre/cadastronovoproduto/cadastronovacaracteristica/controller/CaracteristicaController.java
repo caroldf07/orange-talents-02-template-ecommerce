@@ -19,7 +19,7 @@ import javax.validation.Valid;
 public class CaracteristicaController {
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     @PostMapping
     @Transactional

@@ -20,7 +20,7 @@ import javax.validation.Valid;
 public class OpiniaoController {
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     @PostMapping("/{id}/opiniao")
     @Transactional

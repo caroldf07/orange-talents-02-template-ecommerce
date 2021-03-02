@@ -53,7 +53,7 @@ public class Produto {
     private Categoria categoria;
 
     @DateTimeFormat(pattern = "dd/MM/yyyy")
-    private LocalDate instante = LocalDate.now();
+    private LocalDate instante;
 
     @NotNull
     @Valid
@@ -82,6 +82,7 @@ public class Produto {
         this.descricao = descricao;
         this.categoria = categoria;
         this.responsavel = responsavel;
+        this.instante = LocalDate.now();
 
         Assert.isTrue(this.caracteristicas.size() >= 3,
                 "Todo produto precisa ter no mínimo 3 ou mais características");
@@ -145,4 +146,7 @@ public class Produto {
         this.imagens.addAll(imagem);
     }
 
+    public Set<Pergunta> getPerguntas() {
+        return perguntas;
+    }
 }

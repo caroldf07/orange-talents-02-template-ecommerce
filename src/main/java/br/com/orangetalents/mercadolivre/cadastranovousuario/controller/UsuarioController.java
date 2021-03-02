@@ -19,7 +19,7 @@ import javax.validation.Valid;
 public class UsuarioController {
 
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     @PostMapping
     @Transactional
