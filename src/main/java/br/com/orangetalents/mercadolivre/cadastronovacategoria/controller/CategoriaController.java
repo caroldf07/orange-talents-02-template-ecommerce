@@ -3,6 +3,7 @@ package br.com.orangetalents.mercadolivre.cadastronovacategoria.controller;
 import br.com.orangetalents.mercadolivre.cadastronovacategoria.NovaCategoriaRequest;
 import br.com.orangetalents.mercadolivre.cadastronovacategoria.model.Categoria;
 import br.com.orangetalents.mercadolivre.cadastronovacategoria.view.NovaCategoriaResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,9 +24,9 @@ public class CategoriaController {
 
     @PostMapping
     @Transactional
-    public NovaCategoriaResponse criar(@RequestBody @Valid NovaCategoriaRequest novaCategoriaRequest) {
+    public ResponseEntity<NovaCategoriaResponse> criar(@RequestBody @Valid NovaCategoriaRequest novaCategoriaRequest) {
         Categoria categoria = novaCategoriaRequest.toModel(em);
         em.persist(categoria);
-        return categoria.fromModelToResponse();
+        return ResponseEntity.ok(categoria.fromModelToResponse());
     }
 }

@@ -89,4 +89,16 @@ public class Opiniao {
     public int hashCode() {
         return Objects.hash(nota, titulo, descricao, usuario, produto);
     }
+
+    public Integer getNota() {
+        return nota;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
 }

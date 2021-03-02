@@ -62,4 +62,8 @@ public class Pergunta {
     public Produto getProduto() {
         return produto;
     }
+
+    public String getTitulo() {
+        return titulo;
+    }
 }

@@ -3,6 +3,7 @@ package br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaract
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.NovaCaracteristicaRequest;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.model.Caracteristica;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.view.NovaCaracteristicaResponse;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,9 +24,9 @@ public class CaracteristicaController {
 
     @PostMapping
     @Transactional
-    public NovaCaracteristicaResponse criar(@RequestBody @Valid NovaCaracteristicaRequest novaCaracteristicaRequest) {
+    public ResponseEntity<NovaCaracteristicaResponse> criar(@RequestBody @Valid NovaCaracteristicaRequest novaCaracteristicaRequest) {
         Caracteristica caracteristica = novaCaracteristicaRequest.toModel();
         em.persist(caracteristica);
-        return caracteristica.fromModelToResponse();
+        return ResponseEntity.ok(caracteristica.fromModelToResponse());
     }
 }
