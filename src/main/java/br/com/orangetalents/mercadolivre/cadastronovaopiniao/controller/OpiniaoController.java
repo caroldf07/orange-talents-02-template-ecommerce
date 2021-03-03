@@ -31,7 +31,7 @@ public class OpiniaoController {
         Opiniao opiniao = novaOpiniaoRequest.toModel(produto, usuarioLogado);
         em.persist(opiniao);
 
-        return ResponseEntity.ok(opiniao.toString());
+        return ResponseEntity.ok().build();
 
     }
 }

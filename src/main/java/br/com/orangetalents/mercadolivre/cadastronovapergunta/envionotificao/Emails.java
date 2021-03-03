@@ -28,4 +28,16 @@ public class Emails {
         mailer.send("<html>Teste</html>", "Nova compra",
                 compra.getComprador().getEmail(), compra.getProduto().getResponsavel().getEmail());
     }
+
+    public void compraFinalizadaSucesso(Compra compra) {
+        mailer.send("<html>Teste</html>", "Compra finalizada com sucesso",
+                compra.getProduto().getResponsavel().getEmail(),
+                compra.getComprador().getEmail());
+    }
+
+    public void compraFinalizadaErro(Compra compra) {
+        mailer.send("<html>Venda não finalizada</html>", "Compra deu erro, tente novamente",
+                compra.getProduto().getResponsavel().getEmail(),
+                compra.getComprador().getEmail());
+    }
 }

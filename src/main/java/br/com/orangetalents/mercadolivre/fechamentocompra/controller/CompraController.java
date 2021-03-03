@@ -50,12 +50,12 @@ public class CompraController {
             emails.novaCompra(compra);
 
             if (gatewayEnum.equals(GatewayEnum.Paypal)) {
-                String urlRetornoPaypal = UriComponentsBuilder.fromPath("/retorno/{id}").
+                String urlRetornoPaypal = UriComponentsBuilder.fromPath("/retorno-paypal/{id}").
                         buildAndExpand(compra.getId()).toString();
 
                 return ResponseEntity.ok("paypal.com/" + compra.getId() + "?redirectUrl=" + urlRetornoPaypal);
             } else if (gatewayEnum.equals(GatewayEnum.Pagseguro)) {
-                String urlRetornoPagseguro = UriComponentsBuilder.fromPath("/retorno/{id}").
+                String urlRetornoPagseguro = UriComponentsBuilder.fromPath("/retorno-pagseguro/{id}").
                         buildAndExpand(compra.getId()).toString();
 
                 return ResponseEntity.ok("pagseguro.com/" + compra.getId() + "?redirectUrl=" + urlRetornoPagseguro);

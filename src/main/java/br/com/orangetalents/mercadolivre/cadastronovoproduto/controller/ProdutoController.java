@@ -43,7 +43,7 @@ public class ProdutoController {
         Produto produto = novoProdutoRequest.toModel(em, usuarioLogado);
         em.persist(produto);
 
-        return ResponseEntity.ok(produto.toString());
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/{id}/imagens")
