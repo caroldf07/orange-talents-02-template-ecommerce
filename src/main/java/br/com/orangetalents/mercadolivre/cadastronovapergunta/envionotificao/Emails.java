@@ -1,6 +1,7 @@
 package br.com.orangetalents.mercadolivre.cadastronovapergunta.envionotificao;
 
 import br.com.orangetalents.mercadolivre.cadastronovapergunta.model.Pergunta;
+import br.com.orangetalents.mercadolivre.fechamentocompra.model.Compra;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -21,5 +22,10 @@ public class Emails {
     public void novaPergunta(@NotNull @Valid Pergunta pergunta) {
         mailer.send("<html>Teste</html>", "Título da pergunta",
                 pergunta.getPessoaInteressada().getEmail(), pergunta.getProduto().getResponsavel().getEmail());
+    }
+
+    public void novaCompra(Compra compra) {
+        mailer.send("<html>Teste</html>", "Nova compra",
+                compra.getComprador().getEmail(), compra.getProduto().getResponsavel().getEmail());
     }
 }

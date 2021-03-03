@@ -1,4 +1,4 @@
-package br.com.orangetalents.mercadolivre.cadastronovapergunta;
+package br.com.orangetalents.mercadolivre.cadastronovapergunta.view;
 
 import br.com.orangetalents.mercadolivre.cadastronovapergunta.model.Pergunta;
 

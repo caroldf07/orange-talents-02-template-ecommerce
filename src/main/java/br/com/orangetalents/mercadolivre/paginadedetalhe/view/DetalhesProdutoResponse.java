@@ -1,7 +1,7 @@
 package br.com.orangetalents.mercadolivre.paginadedetalhe.view;
 
 import br.com.orangetalents.mercadolivre.cadastronovaopiniao.view.OpiniaoResponse;
-import br.com.orangetalents.mercadolivre.cadastronovapergunta.PerguntaDetalheResponse;
+import br.com.orangetalents.mercadolivre.cadastronovapergunta.view.PerguntaDetalheResponse;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.cadastronovacaracteristica.view.CaracteristicaDetalheResponse;
 import br.com.orangetalents.mercadolivre.cadastronovoproduto.model.Produto;
 
