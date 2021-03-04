@@ -58,14 +58,6 @@ public class Opiniao {
     public Opiniao() {
     }
 
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
-    }
-
-    public void setProduto(Produto produto) {
-        this.produto = produto;
-    }
-
     @Override
     public String toString() {
         return "Opiniao{" +
